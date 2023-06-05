@@ -1,0 +1,233 @@
+Task 1
+
+Create a new Laravel project named "MigrationAssignment" using the Laravel command-line interface.
+
+Answer
+
+I use following command to open a new laravel project titled "MigrationAssignment"
+
+laravel new MigrationAssignment
+
+Task 2
+
+Within the project, create a new migration file named "create_products_table" that will be responsible for creating a table called "products" in the database. The "products" table should have the following columns:
+
+id: an auto-incrementing integer and primary key.
+name: a string column to store the product name.
+price: a decimal column to store the product price.
+description: a text column to store the product description.
+created_at: a timestamp column to store the creation date and time.
+updated_at: a timestamp column to store the last update date and time.
+
+Answer
+
+After i came across root directory of "MigrationAssignment" Project,I use following command to "create_products_table"
+
+php artisan make:migration create_products_table --create=products
+
+After i go to database/migrations directory and locate 2023_06_04_000000_create_products_table.php and open this file and wrote following command
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateProductsTable extends Migration
+{
+    /**
+     *
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->decimal('price', 8, 2);
+            $table->text('description');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * 
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('products');
+    }
+}
+
+Task 3
+
+After creating the migration file, run the migration to create the "products" table in the database.
+
+Answer
+
+As i am already in project directory,i use following code to complete this task
+
+php artisan migrate
+
+Task 4
+
+Modify the existing migration file "create_products_table" to add a new column called "quantity" to the "products" table. The "quantity" column should be an integer column and allow null values.
+
+Answer 
+
+As i am in root directory i locate 2023_06_04_000000_create_products_table.php inside Schema::create i use this code to open quantity table
+
+$table->integer('quantity')->nullable();
+
+then wrote following code php file
+
+public function up()
+{
+    Schema::create('products', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->decimal('price', 8, 2);
+        $table->text('description');
+        $table->integer('quantity')->nullable();
+        $table->timestamps();
+    });
+}
+
+Task 5
+
+Create a new migration file named "add_category_to_products_table" that will be responsible for adding a new column called "category" to the "products" table. The "category" column should be a string column with a maximum length of 50 characters.
+
+Answer
+
+I use following command to migrate a new category
+
+php artisan make:migration add_category_to_products_table --table=products
+
+then open and locate
+
+2023_06_05_000000_add_category_to_products_table.php and wrote following code,
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class AddCategoryToProductsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('products', function (Blueprint $table) {
+            $table->string('category', 50)->after('description');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('category');
+        });
+    }
+}
+
+Task 6
+
+After creating the new migration file, run the migration to add the "category" column to the "products" table.
+
+Answer
+
+To complete this task i use following command
+
+php artisan migrate
+
+Task 7
+
+Create a new migration file named "create_orders_table" that will be responsible for creating a table called "orders" in the database. The "orders" table should have the following columns:
+
+
+id: an auto-incrementing integer and primary key.
+product_id: an unsigned integer column to establish a foreign key relationship with the "id" column of the "products" table.
+quantity: an integer column to store the quantity of products ordered.
+created_at: a timestamp column to store the creation date and time.
+updated_at: a timestamp column to store the last update date and time.
+
+Answer
+
+I use following terminal comand to create_orders_table in project
+
+php artisan make:migration create_orders_table
+
+after that i locate 2023_06_04_000000_create_orders_table.php file in database/migrations
+
+open the it and write this code,
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateOrdersTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->integer('quantity');
+            $table->timestamps();
+
+            $table->foreign('product_id')->references('id')->on('products');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('orders');
+    }
+}
+
+Task 8
+
+After creating the migration file for the "orders" table, run the migration to create the "orders" table in the database.
+
+Answer
+
+As i am already in project directory,i execute this command to run the migration
+
+php artisan migrate
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
